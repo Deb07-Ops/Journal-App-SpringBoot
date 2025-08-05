@@ -25,19 +25,14 @@ public class UserController {
         return userService.getAll();
     }
 
-    @PostMapping
-    public void crteateUser(@RequestBody User user){
-        userService.saveEntry(user);
-    }
-
-    @PutMapping("/{username}")
-    public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable String username){
-        User userInDb= userService.findByUsername(username);
-        if(userInDb !=null){
-            userInDb.setPassword(user.getPassword());
-            userInDb.setUsername(user.getUsername());
-            userService.saveEntry(userInDb);
-        }
+    @PutMapping()
+    public ResponseEntity<?> updateUser(@RequestBody User user){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User userInDb= userService.findByUserName(username);
+        userInDb.setUsername(user.getUsername());
+        userInDb.setPassword(user.getPassword());
+        userService.saveNewUser(userInDb);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
