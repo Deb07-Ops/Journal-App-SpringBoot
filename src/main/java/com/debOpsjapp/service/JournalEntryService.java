@@ -3,6 +3,7 @@ package com.debOpsjapp.service;
 import com.debOpsjapp.entity.JournalEntry;
 import com.debOpsjapp.entity.User;
 import com.debOpsjapp.repo.JournalEntryRepo;
+import com.debOpsjapp.repo.UserRepo;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,8 @@ public class JournalEntryService {
     private UserService UserService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepo userRepo;
 
     public JournalEntryService(JournalEntryRepo journalEntryRepo) {
         this.journalEntryRepo = journalEntryRepo;
@@ -29,11 +32,10 @@ public class JournalEntryService {
 
     @Transactional
     public void saveEntry(JournalEntry journalEntry, String userName){
-        User user = userService.findByUsername(userName); //first find the user
+        User user = userService.findByUserName(userName); //first find the user
         JournalEntry saved = journalEntryRepo.save(journalEntry);
         user.getJournalEntries().add(saved);
-        user.setUsername(null);
-        userService.saveEntry(user);
+        userService.saveUser(user);
     }
 
     public void saveEntry(JournalEntry journalEntry){
@@ -46,11 +48,21 @@ public class JournalEntryService {
     public Optional<JournalEntry> findById(ObjectId myId){
         return journalEntryRepo.findById(myId);
     }
-    public void deleteByID(ObjectId id, String userName){
-        User user = UserService.findByUsername(userName); //first find the user
-        user.getJournalEntries().removeIf(x -> x.getId().equals(id));
-        userService.saveEntry(user);
-        journalEntryRepo.deleteById(id);
+    public boolean deleteByID(ObjectId id, String userName){
+        boolean boo = false;
+        try {
+            User user = UserService.findByUserName(userName); //first find the user
+            boo = user.getJournalEntries().removeIf(x -> x.getId().equals(id));
+            if (boo) {
+                userService.saveUser(user);
+                journalEntryRepo.deleteById(id);
+            }
+        }catch(Exception e){
+            System.out.println(e);
+            throw new RuntimeException("Error occurred while detecting entry.", e);
+        }
+        return boo;
     }
+
 }
 //controller --> service --> repo
