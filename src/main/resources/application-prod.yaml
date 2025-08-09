@@ -1,0 +1,15 @@
+#spring.data.mongodb.uri=
+#spring.data.mongodb.database=journalDB
+#spring.data.mongodb.auto-index-creation=true
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://debjitmondal2021:hk7IbJ8aR0Z3BgAG@cluster0.ur3jdeq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      database: journalDB
+      auto-index-creation: true
+
+server:
+  port: 8082
+  servlet:
+    context-path: /journal

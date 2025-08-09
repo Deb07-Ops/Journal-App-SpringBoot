@@ -5,6 +5,8 @@ import com.debOpsjapp.entity.User;
 import com.debOpsjapp.repo.JournalEntryRepo;
 import com.debOpsjapp.repo.UserRepo;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,8 @@ public class JournalEntryService {
     private UserService userService;
     @Autowired
     private UserRepo userRepo;
+
+
 
     public JournalEntryService(JournalEntryRepo journalEntryRepo) {
         this.journalEntryRepo = journalEntryRepo;
