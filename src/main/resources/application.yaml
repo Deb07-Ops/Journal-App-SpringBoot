@@ -4,8 +4,27 @@ spring:
       uri: mongodb+srv://debjitmondal2021:hk7IbJ8aR0Z3BgAG@cluster0.ur3jdeq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
       database: journalDB
       auto-index-creation: true
+    redis:
+      port: 6379
+      host: localhost
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: debjitm03@gmail.com
+    password: gvvl ojwt mlno yqep
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
 
 server:
-  port: 8081
+  port: 8080
   servlet:
     context-path: /journal
+
+weather:
+  api:
+    key: 1c378d31d9fee375e7cae6920eacdb18

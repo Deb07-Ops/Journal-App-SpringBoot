@@ -1,5 +1,6 @@
 package com.debOpsjapp.entity;
 
+import com.debOpsjapp.enums.Sentiment;
 import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -24,6 +25,7 @@ public class JournalEntry {
         this.content = content;
         this.date = LocalDateTime.now();
     }
+    private Sentiment sentiment;
 
 //    public ObjectId getId() { return id; }
 //    public void setId(ObjectId id) { this.id = id; }
